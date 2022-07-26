@@ -6,6 +6,7 @@ import com.delivery.backend.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +38,16 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @PostConstruct
+    public void addUser(){
+        Customer customer = new Customer();
+        Customer.builder().firstName("Tomasz").streetName("biala").age(16).build();
+        customerRepository.save(customer);
+    }
+
     @Override
     public List<Customer> listCustomers() {
-        return null;
+        return customerRepository.findAll();
     }
 
     @Override
