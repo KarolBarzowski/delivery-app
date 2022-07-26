@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="798f0067-5dcf-4a71-824e-188aba2e9559" name="Changes" comment="controller">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/controller/test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="798f0067-5dcf-4a71-824e-188aba2e9559" name="Changes" comment="testRequest">
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/BackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/BackendApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/service/implementation/CustomerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/service/implementation/CustomerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/repository/CustomerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/delivery/backend/repository/CustomerRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +89,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1658860311389</updated>
-      <workItem from="1658860313357" duration="5925000" />
+      <workItem from="1658860313357" duration="6285000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1658862004739</created>
@@ -106,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658866580907</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="testRequest">
+      <created>1658866976916</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658866976916</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -126,6 +132,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="controller" />
-    <option name="LAST_COMMIT_MESSAGE" value="controller" />
+    <MESSAGE value="testRequest" />
+    <option name="LAST_COMMIT_MESSAGE" value="testRequest" />
   </component>
 </project>
