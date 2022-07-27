@@ -55,6 +55,11 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+    @Override
+    public boolean changeCustomerInformations(Long id, Customer customer) {
+        return false;
+    }
+
     private boolean checkIfAllIsFilledUp(Customer customer){
         return checkIfEmailIsNotEmpty(customer.getEmail());
     }

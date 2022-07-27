@@ -18,9 +18,9 @@ public class RestaurantMenuItem {
     @ManyToOne
     @JoinColumn(name = "restaurantId", nullable = false)
     private Restaurant restaurant;
-    private String foodName;
-    private Double foodPrice;
-    private String foodSize;
+    private String name;
+    private Double price;
+    private String size;
     @Enumerated(EnumType.STRING)
-    private FoodType foodType;
+    private FoodType type;
 }

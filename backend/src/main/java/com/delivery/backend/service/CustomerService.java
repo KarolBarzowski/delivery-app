@@ -8,4 +8,6 @@ public interface CustomerService {
     boolean registerCustomer(Customer customer);
     List<Customer> listCustomers();
     Customer findCustomer(Long id);
+
+    boolean changeCustomerInformations(Long id, Customer customer);
 }

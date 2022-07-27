@@ -1,5 +1,6 @@
 package com.delivery.backend.service.implementation;
 
+import com.delivery.backend.entity.Response.MenuItemForRestaurantResponse;
 import com.delivery.backend.entity.Restaurant;
 import com.delivery.backend.entity.RestaurantMenuItem;
 import com.delivery.backend.entity.enums.FoodType;
@@ -24,10 +25,10 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
     public boolean addItemToRestaurant(Long restaurantId, RestaurantMenuItem item) {
         Optional<Restaurant> restaurant = Optional.ofNullable(restaurantRepository.findById(restaurantId).orElse(null));
         RestaurantMenuItem.builder()
-                .foodName(item.getFoodName())
-                .foodPrice(item.getFoodPrice())
-                .foodType(item.getFoodType())
-                .foodSize(item.getFoodSize())
+                .name(item.getName())
+                .price(item.getPrice())
+                .type(item.getType())
+                .size(item.getSize())
                 .restaurant(restaurant.get())
                 .build();
         itemRepository.save(item);
@@ -41,16 +42,24 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
         restaurantRepository.save(restaurant);
         RestaurantMenuItem item = new RestaurantMenuItem();
         item.setRestaurant(restaurant);
-        item.setFoodName("Pizza margharita");
-        item.setFoodSize("42");
-        item.setFoodType(FoodType.PIZZA);
-        item.setFoodPrice(25.35);
+        item.setName("Pizza margharita");
+        item.setSize("42");
+        item.setType(FoodType.PIZZA);
+        item.setPrice(25.35);
         itemRepository.save(item);
     }
 
     @Override
-    public List<RestaurantMenuItem> getAllItemsFromRestaurant(Long id) {
+    public List<MenuItemForRestaurantResponse> getAllItemsFromRestaurant(Long id) {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
-        return itemRepository.findRestaurantMenuItemsByRestaurant(restaurant.get());
+        List<RestaurantMenuItem> menuItem = itemRepository.findRestaurantMenuItemsByRestaurant(restaurant.get());
+        MenuItemForRestaurantResponse itemResponse = new MenuItemForRestaurantResponse();
+        for(int i = 0; i<menuItem.size();i++) {
+            itemResponse.setId(menuItem.get(i).getId());
+            itemResponse.setFoodName(menuItem.get(i).getName());
+            itemResponse.setFoodPrice(menuItem.get(i).getPrice());
+            itemResponse.setFoodType(menuItem.get(i).getType());
+        }
+        return List.of(itemResponse);
     }
 }
