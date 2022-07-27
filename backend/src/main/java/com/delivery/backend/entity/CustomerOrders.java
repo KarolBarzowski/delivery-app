@@ -10,13 +10,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RestaurantMenuItem {
+public class CustomerOrders {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "restaurantId", nullable = false)
-    private Restaurant restaurant;
-    private String foodName;
-    private Double foodPrice;
+    private String name;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customerId", referencedColumnName = "id")
+    private Customer customer;
 }
