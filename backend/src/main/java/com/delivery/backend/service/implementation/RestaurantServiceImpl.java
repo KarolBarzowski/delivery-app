@@ -23,7 +23,6 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .houseNumber(restaurant.getHouseNumber())
                 .postalCode(restaurant.getPostalCode())
                 .city(restaurant.getCity())
-                .menu(null)
                 .build();
         repository.save(restaurant);
         return true;

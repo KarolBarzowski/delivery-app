@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-    @PostConstruct
+  //  @PostConstruct
     public void addUser(){
         Customer customer = new Customer();
         Customer.builder().firstName("Tomasz").streetName("biala").age(16).build();

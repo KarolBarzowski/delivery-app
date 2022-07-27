@@ -20,6 +20,5 @@ public class Restaurant {
     private String houseNumber;
     private String postalCode;
     private String city;
-    @OneToMany(mappedBy = "id")
-    private List<RestaurantMenuItem> menu;
+
 }
