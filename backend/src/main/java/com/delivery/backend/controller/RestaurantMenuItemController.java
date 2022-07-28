@@ -21,7 +21,7 @@ public class RestaurantMenuItemController {
         return itemService.getAllItemsFromRestaurant(restaurantId);
     }
 
-   // @PostMapping("/addMenuItem/{restaurantId}")
+  //  @PostMapping("/addMenuItem/{restaurantId}")
     public boolean addItemsToRestaurant(@PathVariable("restaurantId")Long restaurantId, @RequestBody RestaurantMenuItem item){
         return itemService.addItemToRestaurant(restaurantId, item);
     }

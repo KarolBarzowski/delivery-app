@@ -1,13 +1,9 @@
 package com.delivery.backend.entity;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,22 +17,22 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    @NotNull
+    //@NotNull
     private String firstName;
-    @NotNull
+    //@NotNull
     private String lastName;
     @Email
-    @NotNull
+    //@NotNull
     private String email;
     private Integer age;
-    @NotNull
+    //@NotNull
     private String phoneNumber;
-    @NotNull
+    //@NotNull
     private String streetName;
-    @NotNull
+    //@NotNull
     private String houseNumber;
-    @NotNull
+    //@NotNull
     private String city;
-    @NotNull
+    //@NotNull
     private String postalCode;
 }

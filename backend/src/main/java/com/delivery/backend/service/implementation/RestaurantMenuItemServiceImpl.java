@@ -8,22 +8,29 @@ import com.delivery.backend.repository.RestaurantMenuItemRepository;
 import com.delivery.backend.repository.RestaurantRepository;
 import com.delivery.backend.service.RestaurantMenuItemService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService {
     private final RestaurantMenuItemRepository itemRepository;
     private final RestaurantRepository restaurantRepository;
 
+    //TODO DO NAPRAWY:  Pole nie może być NULL"RESTAURANT_ID"
+    //NULL not allowed for column "RESTAURANT_ID"; SQL statement:
+    //DODANIE JSONA Z RESTAURACJĄ POZWALA PRZESŁAĆ REQUEST
     @Override
+    @Transactional
     public boolean addItemToRestaurant(Long restaurantId, RestaurantMenuItem item) {
-        Optional<Restaurant> restaurant = Optional.ofNullable(restaurantRepository.findById(restaurantId).orElse(null));
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
         RestaurantMenuItem.builder()
                 .name(item.getName())
                 .price(item.getPrice())
@@ -31,8 +38,15 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
                 .size(item.getSize())
                 .restaurant(restaurant.get())
                 .build();
-        itemRepository.save(item);
-        return true;
+        if(checkIfAllIsFilledUp(item)) {
+            itemRepository.save(item);
+            log.info("Menu Item {} was created", item);
+            return true;
+        }
+        else {
+            log.warn("Not all fields are filled up!");
+            return false;
+        }
     }
 
     @PostConstruct
@@ -54,12 +68,27 @@ public class RestaurantMenuItemServiceImpl implements RestaurantMenuItemService 
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         List<RestaurantMenuItem> menuItem = itemRepository.findRestaurantMenuItemsByRestaurant(restaurant.get());
         MenuItemForRestaurantResponse itemResponse = new MenuItemForRestaurantResponse();
-        for(int i = 0; i<menuItem.size();i++) {
-            itemResponse.setId(menuItem.get(i).getId());
-            itemResponse.setFoodName(menuItem.get(i).getName());
-            itemResponse.setFoodPrice(menuItem.get(i).getPrice());
-            itemResponse.setFoodType(menuItem.get(i).getType());
+        for (RestaurantMenuItem item : menuItem) {
+            itemResponse.setId(item.getId());
+            itemResponse.setFoodName(item.getName());
+            itemResponse.setFoodPrice(item.getPrice());
+            itemResponse.setFoodType(item.getType());
         }
         return List.of(itemResponse);
+    }
+
+
+    private boolean checkIfAllIsFilledUp(RestaurantMenuItem item){
+        return     checkIfFoodNameIsFilledUp(item.getName())
+                || checkIfFoodPriceIsFilledUp(item.getPrice());
+    }
+
+    private boolean checkIfFoodPriceIsFilledUp(double price){
+        Optional.ofNullable(price).orElseThrow(NullPointerException::new);
+        return true;
+    }
+    private boolean checkIfFoodNameIsFilledUp(String name){
+        Optional.ofNullable(name).orElseThrow(NullPointerException::new);
+        return true;
     }
 }

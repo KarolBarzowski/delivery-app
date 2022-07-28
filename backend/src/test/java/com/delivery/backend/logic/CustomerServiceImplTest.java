@@ -2,12 +2,9 @@ package com.delivery.backend.logic;
 
 import com.delivery.backend.entity.Customer;
 import com.delivery.backend.repository.CustomerRepository;
-import com.delivery.backend.service.CustomerService;
 import com.delivery.backend.service.implementation.CustomerServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.delivery.backend.service.implementation.ExampleData.UserExampleData;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -15,7 +12,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -35,18 +34,7 @@ class CustomerServiceImplTest {
     @Test
     @DisplayName("Register New Customer")
     void registerCustomer() {
-       Customer customer = new Customer(
-                1L,
-                "testName",
-                "testLastName",
-                "testEmail",
-                15,
-                "123456789",
-                "biala",
-                "12",
-                "gdynia",
-                "81-164"
-        );
+        Customer customer = UserExampleData.exampleCustomer();
        customerService.registerCustomer(customer);
 
         ArgumentCaptor<Customer> argumentCaptor =
@@ -58,28 +46,24 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    @Disabled
-    void listCustomers() {
-       Customer customer = new Customer(
-                1L,
-                "testName",
-                "testLastName",
-                "testEmail",
-                15,
-                "123456789",
-                "biala",
-                "12",
-                "gdynia",
-                "81-164"
-        );
-       customerService.registerCustomer(customer);
+    @DisplayName("Will throw NullPointerException On New Customer")
+    void willThrowNullPointerExceptionOnRegister(){
+        Customer customer = UserExampleData.exampleCustomerWithoutEmail();
+        assertThatThrownBy(() -> customerService.registerCustomer(customer))
+                .isInstanceOf(NullPointerException.class);
 
-      int listSize =  customerService.listCustomers().size();
-      assertEquals(listSize, 1);
+    }
+
+    @Test
+    void listCustomers() {
+        customerService.listCustomers();
+        verify(repository).findAll();
     }
 
     @Test
     void findCustomer() {
+        customerService.findCustomer(1L);
+        verify(repository).findById(1L);
     }
 
     @Test
