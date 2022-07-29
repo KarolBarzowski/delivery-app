@@ -4,6 +4,7 @@ import com.delivery.backend.entity.Customer;
 import com.delivery.backend.repository.CustomerRepository;
 import com.delivery.backend.service.implementation.CustomerServiceImpl;
 import com.delivery.backend.service.implementation.ExampleData.UserExampleData;
+import com.delivery.backend.service.implementation.MailService.MailService;
 import com.delivery.backend.service.implementation.exception.CustomerIsUnder18YO;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,10 +27,12 @@ class CustomerServiceImplTest {
 
     @Mock
     CustomerRepository repository;
+    @Mock
+    MailService mailService;
 
     @BeforeEach
     void setUp() {
-        customerService = new CustomerServiceImpl(repository);
+        customerService = new CustomerServiceImpl(repository, mailService);
     }
 
     @Test
