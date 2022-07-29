@@ -17,11 +17,6 @@ public class CustomerController {
 
     private final CustomerServiceImpl customerService;
 
-    @PostMapping("/register")
-    public boolean registerUser(@RequestBody Customer customer){
-        return customerService.registerCustomer(customer);
-    }
-
     @GetMapping("/test")
     public List<Customer> getCustomers(){
         return customerService.listCustomers();

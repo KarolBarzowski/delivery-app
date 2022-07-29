@@ -4,6 +4,7 @@ import com.delivery.backend.entity.Customer;
 import com.delivery.backend.repository.CustomerRepository;
 import com.delivery.backend.service.implementation.CustomerServiceImpl;
 import com.delivery.backend.service.implementation.ExampleData.UserExampleData;
+import com.delivery.backend.service.implementation.exception.CustomerIsUnder18YO;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -51,6 +52,15 @@ class CustomerServiceImplTest {
         Customer customer = UserExampleData.exampleCustomerWithoutEmail();
         assertThatThrownBy(() -> customerService.registerCustomer(customer))
                 .isInstanceOf(NullPointerException.class);
+
+    }
+
+    @Test
+    @DisplayName("Will throw CustomerIsUnder18YO On New Customer")
+    void willThrowCustomerIsUnder18YOOnRegister(){
+        Customer customer = UserExampleData.exampleCustomerUnder18YO();
+        assertThatThrownBy(() -> customerService.registerCustomer(customer))
+                .isInstanceOf(CustomerIsUnder18YO.class);
 
     }
 
