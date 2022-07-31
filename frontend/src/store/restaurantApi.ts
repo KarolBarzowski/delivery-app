@@ -14,3 +14,5 @@ export const restaurantApi = createApi({
     }),
   }),
 });
+
+export const { useGetRestaurantsByCityQuery, useGetRestaurantByIdQuery } = restaurantApi;
