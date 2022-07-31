@@ -1,8 +1,10 @@
 package com.delivery.backend.service.implementation;
 
+import com.delivery.backend.entity.ActivationEmail;
 import com.delivery.backend.entity.Customer;
 import com.delivery.backend.entity.EmailBody;
 import com.delivery.backend.entity.Request.ChangeCustomerAddressInformations;
+import com.delivery.backend.repository.ActivationEmailRepository;
 import com.delivery.backend.repository.CustomerRepository;
 import com.delivery.backend.service.CustomerService;
 import com.delivery.backend.service.implementation.ExampleData.UserExampleData;
@@ -10,12 +12,10 @@ import com.delivery.backend.service.implementation.MailService.MailService;
 import com.delivery.backend.service.implementation.exception.CustomerIsUnder18YO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import javax.validation.constraints.Email;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +25,11 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    @Autowired
+    private final ActivationEmailRepository activationEmailRepository;
     private  MailService mailService;
 
     @Override
+    @Transactional
     public boolean registerCustomer(Customer customer) {
         Customer.builder()
                 .firstName(customer.getFirstName())
@@ -40,18 +41,29 @@ public class CustomerServiceImpl implements CustomerService {
                 .houseNumber(customer.getHouseNumber())
                 .city(customer.getCity())
                 .postalCode(customer.getPostalCode())
+                .enabled(false)
                 .build();
+
         if(checkIfAllIsFilledUp(customer)) {
             customerRepository.save(customer);
             log.info("Customer {} was created!", customer);
             //TODO CREATE ACCOUNT CONFIRMATION LINK!!!!!!
-            mailService.sendMail(new EmailBody("Account confirmation", customer.getEmail(), ""));
+            ActivationEmailServiceImpl emailService = new ActivationEmailServiceImpl(activationEmailRepository, mailService);
+            emailService.createActivationEmailLink(customer);
             return checkIfAllIsFilledUp(customer);
         }
         else {
             log.warn("Customer {} was not created!", customer);
             return false;
         }
+    }
+//TODO REFACTOR
+    public boolean enableCustomerAccount(String UUID){
+       ActivationEmail activationEmail = activationEmailRepository.findActivationEmailByActivationCode(UUID);
+        Optional<Customer> customer = customerRepository.findById(activationEmail.getCustomer().getId());
+        customer.get().setEnabled(true);
+        customerRepository.save(customer.get());
+        return true;
     }
 
     //TODO ZMIANA ADRESU, PRZY BRAKU NOWEJ WARTOŚCI TWORZY SIĘ NULL
@@ -64,6 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPostalCode(customerAddressInformations.getPostalCode());
         customer.setHouseNumber(customerAddressInformations.getHouseNumber());
         customerRepository.save(customer);
+        mailService.sendMail(new EmailBody("Details Changed!", customer.getEmail(), "Your account details has been changed!"));
         return true;
     }
 
@@ -99,6 +112,10 @@ public class CustomerServiceImpl implements CustomerService {
             log.warn("User's age is under 18");
              throw new CustomerIsUnder18YO("Customer is under 18 year old");
         }
+    }
+
+    private boolean createActivationLink(){
+ return true;
     }
     private boolean checkIfEmailIsNotEmpty(String email){
         Optional.of(email).orElseThrow(NullPointerException::new);

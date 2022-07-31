@@ -1,6 +1,7 @@
 package com.delivery.backend.logic;
 
 import com.delivery.backend.entity.Customer;
+import com.delivery.backend.repository.ActivationEmailRepository;
 import com.delivery.backend.repository.CustomerRepository;
 import com.delivery.backend.service.implementation.CustomerServiceImpl;
 import com.delivery.backend.service.implementation.ExampleData.UserExampleData;
@@ -29,10 +30,12 @@ class CustomerServiceImplTest {
     CustomerRepository repository;
     @Mock
     MailService mailService;
+    @Mock
+    ActivationEmailRepository activationEmailRepository;
 
     @BeforeEach
     void setUp() {
-        customerService = new CustomerServiceImpl(repository, mailService);
+        customerService = new CustomerServiceImpl(repository,activationEmailRepository ,mailService);
     }
 
     @Test

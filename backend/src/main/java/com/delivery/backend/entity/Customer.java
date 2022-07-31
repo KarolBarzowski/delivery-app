@@ -35,4 +35,5 @@ public class Customer {
     private String city;
     //@NotNull
     private String postalCode;
+    private boolean enabled;
 }

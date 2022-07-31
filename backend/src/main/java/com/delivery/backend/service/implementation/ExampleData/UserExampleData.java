@@ -14,6 +14,7 @@ public class UserExampleData {
                 .streetName("Biala")
                 .postalCode("18-53")
                 .city("gdynia")
+                .enabled(false)
                 .houseNumber("124")
                 .build();
     }
@@ -28,6 +29,7 @@ public class UserExampleData {
                 .streetName("Biala")
                 .postalCode("18-53")
                 .city("gdynia")
+                .enabled(false)
                 .houseNumber("124")
                 .build();
     }
@@ -39,6 +41,7 @@ public class UserExampleData {
                 .email("tom@wp.pl")
                 .phoneNumber("123455768")
                 .age(15)
+                .enabled(false)
                 .streetName("Biala")
                 .postalCode("18-53")
                 .city("gdynia")
