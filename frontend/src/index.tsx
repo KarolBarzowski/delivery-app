@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom/client';
 import Root from 'views/Root';
 import AppProviders from 'providers/AppProviders';
 import reportWebVitals from './reportWebVitals';
+import { worker } from 'mocks/browser';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+worker.start();
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
