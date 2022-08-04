@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 const Home = () => {
   useEffect(() => {
-    axios.get('/test').then((data) => console.log(data));
+    axios.get('/people').then((data) => console.log(data));
   }, []);
 
   return <div>Home</div>;
